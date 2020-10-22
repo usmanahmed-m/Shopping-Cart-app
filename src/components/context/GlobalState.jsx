@@ -92,6 +92,20 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
+  function incrementItem(id) {
+    dispatch({
+      type: "INCREMENT_ITEM",
+      payload: id,
+    });
+  }
+
+  function decrementItem(id) {
+    dispatch({
+      type: "DECREMENT_ITEM",
+      payload: id,
+    });
+  }
+
   return (
     <GlobalContext.Provider
       value={{
@@ -99,6 +113,8 @@ export const GlobalProvider = ({ children }) => {
         cart: state.cart,
         addProduct,
         removeProduct,
+        incrementItem,
+        decrementItem,
       }}
     >
       {children}

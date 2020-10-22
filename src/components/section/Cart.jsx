@@ -4,9 +4,7 @@ import { Colors } from "./Colors";
 import "../css/Details.css";
 
 export const Cart = () => {
-  const { cart } = useContext(GlobalContext);
-
-  console.log("Cart   ", cart);
+  let { cart, incrementItem, decrementItem } = useContext(GlobalContext);
 
   return (
     <>
@@ -21,6 +19,15 @@ export const Cart = () => {
             <Colors colors={item.colors} />
             <p>{item.description}</p>
             <p>{item.content}</p>
+            <div className="amount">
+              <button className="count" onClick={() => decrementItem(item._id)}>
+                -
+              </button>
+              <span>{item.count}</span>
+              <button className="count" onClick={() => incrementItem(item._id)}>
+                +
+              </button>
+            </div>
           </div>
         </div>
       ))}
