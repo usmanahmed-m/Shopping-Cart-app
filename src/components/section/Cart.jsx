@@ -15,9 +15,7 @@ export const Cart = () => {
     getTotal,
   } = useContext(GlobalContext);
 
-  useEffect(() => {
-    getTotal();
-  }, []);
+  useEffect(getTotal, []);
 
   if (cart.length === 0) {
     return (
