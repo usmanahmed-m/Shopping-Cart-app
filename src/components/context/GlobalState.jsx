@@ -72,12 +72,15 @@ const initialState = {
     },
   ],
   cart: [],
+  total: 0,
 };
 
 export const GlobalContext = createContext(initialState);
 
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
+
+  const { total } = state;
 
   function addProduct(id) {
     dispatch({
@@ -86,10 +89,12 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  function removeProduct() {
+  function removeProduct(id) {
     dispatch({
       type: "REMOVE_FROM_CART",
+      payload: id,
     });
+    getTotal();
   }
 
   function incrementItem(id) {
@@ -97,12 +102,20 @@ export const GlobalProvider = ({ children }) => {
       type: "INCREMENT_ITEM",
       payload: id,
     });
+    getTotal();
   }
 
   function decrementItem(id) {
     dispatch({
       type: "DECREMENT_ITEM",
       payload: id,
+    });
+    getTotal();
+  }
+
+  function getTotal() {
+    dispatch({
+      type: "GET_TOTAL",
     });
   }
 
@@ -115,6 +128,8 @@ export const GlobalProvider = ({ children }) => {
         removeProduct,
         incrementItem,
         decrementItem,
+        total,
+        getTotal,
       }}
     >
       {children}

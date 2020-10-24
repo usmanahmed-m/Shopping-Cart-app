@@ -16,8 +16,17 @@ export default (state, action) => {
         alert(`Product has been added to Cart`);
         return state;
       }
-    case "INCREMENT_ITEM":
-      console.log("increment clicked ", state.cart);
+    case "REMOVE_FROM_CART":
+      if (window.confirm("Do you want to remove this product from cart")) {
+        return {
+          ...state,
+          cart: [
+            ...state.cart.filter((product) => product._id !== action.payload),
+          ],
+        };
+      }
+      break;
+    case "INCREMENT_ITEM": {
       const { cart } = state;
 
       cart.forEach((item) => {
@@ -26,10 +35,10 @@ export default (state, action) => {
         }
       });
       return { ...state, cart };
+    }
 
-    case "DECREMENT_ITEM":
-      console.log("decrement clicked", cart);
-      // const { cart } = state;
+    case "DECREMENT_ITEM": {
+      const { cart } = state;
 
       cart.forEach((item) => {
         if (item._id === action.payload) {
@@ -37,7 +46,17 @@ export default (state, action) => {
         }
       });
       return { ...state, cart };
-
+    }
+    case "GET_TOTAL": {
+      const { cart } = state;
+      const total = cart.reduce((acc, item) => {
+        return acc + item.price * item.count;
+      }, 0);
+      return {
+        ...state,
+        total,
+      };
+    }
     default:
       return state;
   }
